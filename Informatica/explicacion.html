@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Explicación del El viaje de las Ciencias Políticas</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    h1 {
+      font-size: 2.7rem;
+      margin-bottom: 0.5rem;
+      color: #4fc3f7;
+    }
+    header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+    section {
+      max-width: 900px;
+      margin: 2rem auto;
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.4);
+      transition: transform 0.3s;
+    }
+    section:hover {
+      transform: scale(1.01);
+    }
+    h2 {
+      border-left: 6px solid #4fc3f7;
+      padding-left: 0.7rem;
+      margin-bottom: 1rem;
+      color: #4fc3f7;
+    }
+    h3 {
+      margin-top: 0;
+      color: #81d4fa;
+    }
+    p, li {
+      line-height: 1.6;
+    }
+    ul {
+      padding-left: 1.2rem;
+    }
+    ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Temario */
+    .temario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1.2rem;
+    }
+    .card {
+      background-color: rgba(255,255,255,0.07);
+      padding: 1rem;
+      border-left: 5px solid #4fc3f7;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    /* Botón */
+    .start-button {
+      display: block;
+      margin: 2rem auto 0;
+      padding: 1rem 2.5rem;
+      background: radial-gradient(circle, #4fc3f7 0%, #29b6f6 100%);
+      color: #000;
+      font-weight: bold;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(79, 195, 247, 0.7);
+      transition: all 0.3s ease;
+    }
+    .start-button:hover {
+      background: #81d4fa;
+      box-shadow: 0 0 25px rgba(129, 212, 250, 1);
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌟 ¡Bienvenido a El viaje de las Ciencias Políticas! 🌟</h1>
+    <p>Prepárate para al fin entender algo de Ciencias Políticas</p>
+  </header>
+
+  <section>
+    <h2>🎮 ¿De qué trata el juego?</h2>
+    <p>
+      En <strong>Viaje de las Ciencias Políticas</strong>, deberás responder correctamente preguntas clave sobre <em>política, ciudadanía, democracia y el Estado colombiano</em>.<br>
+      ¡Si lo logras sin hacer trampa, te espera un gran reconocimiento!
+    </p>
+
+    <h2>📋 Reglas del juego</h2>
+    <ul>
+      <li>⏱️ Tienes un tiempo límite de <strong>5 minutos</strong>.</li>
+      <li>🚫 No puedes cambiar tu respuesta después de enviarla.</li>
+      <li>🔒 No se permite hacer trampa ni usar ayuda externa.</li>
+      <li>🎯 El juego termina cuando se acabe el tiempo o completes todas las preguntas.</li>
+    </ul>
+
+    <h2>🕹️ Controles</h2>
+    <p>
+      Solo necesitas usar el <strong>mouse</strong> para seleccionar la opción que consideres correcta.<br>
+      🖱️ Haz clic con seguridad, ¡no hay segundas oportunidades!
+    </p>
+  </section>
+
+  <section>
+    <h2>📚 Temario</h2>
+    <div class="temario-grid">
+      <div class="card"><h3>1. 🗳️ Democracia</h3><p>Sistema donde los ciudadanos eligen representantes y participan en decisiones públicas.</p></div>
+      <div class="card"><h3>2. 🏛️ El Estado colombiano</h3><p>Organización con tres ramas: ejecutiva, legislativa y judicial.</p></div>
+      <div class="card"><h3>3. ⚖️ Derechos fundamentales</h3><p>Derechos como la vida, la salud, la educación y la igualdad.</p></div>
+      <div class="card"><h3>4. 📜 Constitución de 1991</h3><p>Norma suprema que organiza el Estado y protege los derechos ciudadanos.</p></div>
+      <div class="card"><h3>5. 🏛️ Congreso de la República</h3><p>Órgano legislativo que representa al pueblo y crea las leyes.</p></div>
+      <div class="card"><h3>6. 🧩 Partidos políticos</h3><p>Agrupaciones con ideologías comunes que buscan ejercer poder político.</p></div>
+      <div class="card"><h3>7. 👥 Ciudadanía</h3><p>Condición que permite participar en la vida política del país.</p></div>
+      <div class="card"><h3>8. 🏗️ Poder público</h3><p>Dividido en tres ramas que garantizan equilibrio: legislativa, ejecutiva y judicial.</p></div>
+      <div class="card"><h3>9. 🗳️ Sufragio</h3><p>Derecho al voto libre y secreto para elegir gobernantes.</p></div>
+      <div class="card"><h3>10. 🌍 Descentralización</h3><p>Distribución de funciones del gobierno a regiones y municipios.</p></div>
+      <div class="card"><h3>11. 🤝 Participación ciudadana</h3><p>Acciones como votar, opinar y proponer en decisiones públicas.</p></div>
+      <div class="card"><h3>12. 📊 Políticas públicas</h3><p>Programas del Estado para resolver problemas y fomentar desarrollo.</p></div>
+      <div class="card"><h3>13. 🌱 Derechos colectivos y ambientales</h3><p>Protección del medio ambiente y comunidades humanas.</p></div>
+      <div class="card"><h3>14. ⚖️ Corte Constitucional</h3><p>Máxima autoridad que interpreta la Constitución y protege derechos.</p></div>
+      <div class="card"><h3>15. 🏛️ Estado social de derecho</h3><p>Modelo que garantiza justicia social y respeto a los derechos humanos.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <button class="start-button" onclick="startGame()">🚀 Comenzar Juego</button>
+  </section>
+
+  <script>
+    function startGame() {
+      window.location.href = "pregunta1.html";
+    }
+  </script>
+</body>
+</html>

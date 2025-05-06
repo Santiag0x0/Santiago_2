@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pregunta 14</title>
+  <style>
+    body {
+      font-family: 'Verdana', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .timer {
+      font-size: 1.4rem;
+      margin-bottom: 2rem;
+      color: #ffe082;
+    }
+
+    .question-box {
+      background: #1c313a;
+      padding: 2.5rem;
+      border-radius: 16px;
+      max-width: 650px;
+      margin: 0 auto;
+      box-shadow: 0 0 25px rgba(255, 193, 7, 0.2);
+    }
+
+    .question {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+    }
+
+    .option {
+      display: block;
+      margin: 1rem auto;
+      padding: 1rem 2rem;
+      background-color: #37474f;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 90%;
+      max-width: 320px;
+    }
+
+    .option:hover {
+      background-color: #ffe082;
+      color: #000;
+    }
+
+    .correct {
+      background-color: #2e7d32 !important;
+      color: #fff !important;
+    }
+
+    .incorrect {
+      background-color: #c62828 !important;
+      color: #fff !important;
+    }
+
+    .feedback {
+      margin-top: 1.8rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .feedback.correct {
+      color: #aed581;
+    }
+
+    .feedback.incorrect {
+      color: #ef9a9a;
+    }
+
+    .next-button {
+      display: none;
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      background-color: #ffd54f;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .next-button:hover {
+      background-color: #ffca28;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="timer">Tiempo restante: <span id="countdown">05:00</span></div>
+
+  <div class="question-box" id="questionBox">
+    <div class="question">
+      ¿Que hace un estado social de derecho?
+    </div>
+    <button class="option" onclick="checkAnswer(this, false)">interpreta la Constitución y protege derechos.</button>
+    <button class="option" onclick="checkAnswer(this, true)">garantiza justicia social y respeto a los derechos humanos.</button>
+    <button class="option" onclick="checkAnswer(this, false)">Emite pasaportes en toda Europa</button>
+    <button class="option" onclick="checkAnswer(this, false)">Organiza elecciones comunitarias</button>
+  </div>
+
+  <div id="feedbackContainer"></div>
+  <button class="next-button" id="nextButton" onclick="endGame()">Finalizar</button>
+
+  <script>
+    // Temporizador compartido
+    let totalSeconds = 5 * 60;
+    const countdownElement = document.getElementById("countdown");
+
+    function updateTimer() {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      countdownElement.textContent =
+        (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+      if (totalSeconds > 0) {
+        totalSeconds--;
+      } else {
+        clearInterval(timerInterval);
+    }
+  }
+    if (sessionStorage.getItem("remainingTime")) {
+      totalSeconds = parseInt(sessionStorage.getItem("remainingTime"))
+    }
+
+    setInterval(() => {
+      sessionStorage.setItem("remainingTime", totalSeconds);
+    }, 1000);
+
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    function checkAnswer(button, isCorrect) {
+      const options = document.querySelectorAll(".option");
+      options.forEach(opt => opt.disabled = true);
+      const feedback = document.createElement("div");
+      feedback.classList.add("feedback");
+
+      if (isCorrect) {
+        button.classList.add("correct");
+        feedback.classList.add("correct");
+        feedback.textContent = "✅ ¡Correcto! garantiza justicia social y respeto a los derechos humanos..";
+      } else {
+        button.classList.add("incorrect");
+        feedback.classList.add("incorrect");
+        feedback.textContent = "❌ Incorrecto. garantiza justicia social y respeto a los derechos humanos.";
+        options.forEach(opt => {
+          if (opt.textContent.includes("Promover el intercambio")) {
+            opt.classList.add("correct");
+          }
+        });
+      }
+
+      document.getElementById("feedbackContainer").appendChild(feedback);
+      document.getElementById("nextButton").style.display = "inline-block";
+    }
+
+    function endGame() {
+      sessionStorage.removeItem("remainingTime"); // Borra el tiempo al finalizar
+      window.location.href = "fin.html"; // Página final del juego
+    }
+  </script>
+</body>
+</html>

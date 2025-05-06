@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pregunta 1</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1a1a2e;
+      color: #fff;
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .timer {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      color: #4fc3f7;
+    }
+
+    .question-box {
+      background: #16213e;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+    }
+
+    .question {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .option {
+      display: block;
+      margin: 0.8rem auto;
+      padding: 0.8rem 2rem;
+      background-color: #0f3460;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .option:hover {
+      background-color: #4fc3f7;
+      color: #000;
+    }
+
+    .correct {
+      background-color: #2e7d32 !important;
+      color: #fff !important;
+    }
+
+    .incorrect {
+      background-color: #c62828 !important;
+      color: #fff !important;
+    }
+
+    .feedback {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .feedback.correct {
+      color: #81c784;
+    }
+
+    .feedback.incorrect {
+      color: #e57373;
+    }
+
+    #nextBtn {
+      margin-top: 2rem;
+      display: none;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      background-color: #4fc3f7;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #nextBtn:hover {
+      background-color: #00bcd4;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="timer">Tiempo restante: <span id="countdown">05:00</span></div>
+
+  <div class="question-box" id="questionBox">
+    <div class="question">
+      ¿Qué es la democracia?
+    </div>
+    <button class="option" onclick="checkAnswer(this, false)">Es un sistema de gobierno donde solo el líder toma decisiones.</button>
+    <button class="option" onclick="checkAnswer(this, false)">Es un sistema político donde la violencia es la base del poder.</button>
+    <button class="option" onclick="checkAnswer(this, false)">Es un sistema donde las leyes no se aplican a los gobernantes.</button>
+    <button class="option" onclick="checkAnswer(this, true)">Es un sistema de gobierno donde el poder es ejercido por el pueblo, generalmente a través del sufragio.</button>
+  </div>
+
+  <div id="feedbackContainer"></div>
+  <button id="nextBtn" onclick="goToNext()">Siguiente pregunta</button>
+
+  <script>
+    // ⏱ Iniciar contador de 5 minutos
+    let totalSeconds = 5 * 60;
+    const countdownElement = document.getElementById("countdown");
+
+    function updateTimer() {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      countdownElement.textContent =
+        (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+      if (totalSeconds > 0) {
+        totalSeconds--;
+      } else {
+        clearInterval(timerInterval);
+        window.location.href = "explicacion.html"; // Redirigir cuando el tiempo se acaba
+      }
+    }
+
+    setInterval(() => {
+      sessionStorage.setItem("remainingTime", totalSeconds);
+    }, 1000);
+
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    // Guardar la respuesta correcta en el almacenamiento local (localStorage)
+    let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
+
+    function checkAnswer(button, isCorrect) {
+      const options = document.querySelectorAll(".option");
+      options.forEach(opt => opt.disabled = true); // Desactiva todos
+      const feedback = document.createElement("div");
+      feedback.classList.add("feedback");
+
+      if (isCorrect) {
+        button.classList.add("correct");
+        feedback.classList.add("correct");
+        feedback.textContent = "✅ ¡Correcto! La democracia es un sistema de gobierno donde el poder es ejercido por el pueblo, generalmente a través del sufragio.";
+        score++;
+        localStorage.setItem('score', score); // Guardar en localStorage
+      } else {
+        button.classList.add("incorrect");
+        feedback.classList.add("incorrect");
+        feedback.textContent = "❌ Incorrecto. La respuesta correcta es: 'Es un sistema de gobierno donde el poder es ejercido por el pueblo, generalmente a través del sufragio'.";
+        options.forEach(opt => {
+          if (opt.textContent.includes("pueblo")) {
+            opt.classList.add("correct");
+          }
+        });
+      }
+
+      document.getElementById("feedbackContainer").appendChild(feedback);
+      document.getElementById("nextBtn").style.display = "inline-block";
+    }
+
+    // ▶ Redirigir a la siguiente pregunta
+    function goToNext() {
+      window.location.href = "pregunta2.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pregunta 7</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle, #2c5364, #0f2027);
+      color: #fff;
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .timer {
+      font-size: 1.4rem;
+      margin-bottom: 2rem;
+      color: #4fc3f7;
+    }
+
+    .question-box {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: 15px;
+      max-width: 650px;
+      margin: 0 auto;
+      box-shadow: 0 0 20px rgba(79, 195, 247, 0.2);
+    }
+
+    .question {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .option {
+      display: block;
+      margin: 1rem auto;
+      padding: 0.9rem 2rem;
+      background-color: #0f3460;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .option:hover {
+      background-color: #4fc3f7;
+      color: #000;
+    }
+
+    .correct {
+      background-color: #2e7d32 !important;
+    }
+
+    .incorrect {
+      background-color: #c62828 !important;
+    }
+
+    .feedback {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .feedback.correct {
+      color: #81c784;
+    }
+
+    .feedback.incorrect {
+      color: #e57373;
+    }
+
+    .next-button {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      background-color: #4fc3f7;
+      color: #000;
+      cursor: pointer;
+      display: none;
+    }
+
+    .next-button:hover {
+      background-color: #29b6f6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="timer">Tiempo restante: <span id="countdown">05:00</span></div>
+
+  <div class="question-box" id="questionBox">
+    <div class="question">
+      ¿Que es la ciudadania?
+    </div>
+    <button class="option" onclick="checkAnswer(this, true)">Condicion que me perite participar en la vida politica de un pais.</button>
+    <button class="option" onclick="checkAnswer(this, false)">Condicion que se me da solo por pisar el pais de viaje.</button>
+    <button class="option" onclick="checkAnswer(this, false)">Solo sirve para dejare votar.</button>
+    <button class="option" onclick="checkAnswer(this, false)">Es un titulo de caballeria.</button>
+  </div>
+
+  <div id="feedbackContainer"></div>
+  <button class="next-button" id="nextButton" onclick="goToNext()">Siguiente Pregunta</button>
+
+  <script>
+    // Temporizador compartido
+    let totalSeconds = 5 * 60;
+    const countdownElement = document.getElementById("countdown");
+
+    function updateTimer() {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      countdownElement.textContent = 
+        (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+      if (totalSeconds > 0) {
+        totalSeconds--;
+      } else {
+        clearInterval(timerInterval);
+        window.location.href = "explicacion.html";
+      }
+    }
+
+    if (sessionStorage.getItem("remainingTime")) {
+      totalSeconds = parseInt(sessionStorage.getItem("remainingTime"));
+    }
+
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    setInterval(() => {
+      sessionStorage.setItem("remainingTime", totalSeconds);
+    }, 1000);
+
+    function checkAnswer(button, isCorrect) {
+      const options = document.querySelectorAll(".option");
+      options.forEach(opt => opt.disabled = true);
+
+      const feedback = document.createElement("div");
+      feedback.classList.add("feedback");
+
+      if (isCorrect) {
+        button.classList.add("correct");
+        feedback.classList.add("correct");
+        feedback.textContent = "✅ ¡Correcto! Es la condicion que me deja participar en la vida politica de un pais.";
+      } else {
+        button.classList.add("incorrect");
+        feedback.classList.add("incorrect");
+        feedback.textContent = "❌ Incorrecto. Es la A, pues es participar en la vida politica de mi pais.";
+        options.forEach(opt => {
+          if (opt.textContent.includes("Derechos humanos")) {
+            opt.classList.add("correct");
+          }
+        });
+      }
+
+      document.getElementById("feedbackContainer").appendChild(feedback);
+      document.getElementById("nextButton").style.display = "inline-block";
+    }
+
+    function goToNext() {
+      window.location.href = "pregunta8.html";
+    }
+  </script>
+</body>
+</html>

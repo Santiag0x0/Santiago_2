@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fin del Juego</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    h1 {
+      color: #ffd700;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    label {
+      text-align: left;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    select, textarea {
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: none;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.8rem 2rem;
+      background-color: #4fc3f7;
+      border: none;
+      border-radius: 10px;
+      color: #000;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #29b6f6;
+    }
+
+    .thanks-message {
+      margin-top: 2rem;
+      color: #81c784;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Dentro del <body> justo después de la sección "thanks-message" -->
+<button id="goToResultsBtn" style="display: none;">Ver Resultados</button>
+
+  <div class="container">
+    <h1>🎉 ¡Juego Finalizado!</h1>
+    <p>Gracias por participar. Antes de irte, por favor responde esta breve encuesta para ayudarnos a mejorar.</p>
+
+    <form id="surveyForm">
+      <div>
+        <label for="learning">¿Qué tanto aprendiste sobre CEPOL?</label>
+        <select id="learning" required>
+          <option value="" disabled selected>Selecciona una opción</option>
+          <option value="mucho">Mucho</option>
+          <option value="algo">Algo</option>
+          <option value="poco">Poco</option>
+          <option value="nada">Nada</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="gameQuality">¿Cómo calificarías la calidad del juego?</label>
+        <select id="gameQuality" required>
+          <option value="" disabled selected>Selecciona una opción</option>
+          <option value="excelente">Excelente</option>
+          <option value="buena">Buena</option>
+          <option value="regular">Regular</option>
+          <option value="mala">Mala</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="comments">Comentarios adicionales:</label>
+        <textarea id="comments" rows="4" placeholder="Escribe tus sugerencias o ideas..."></textarea>
+      </div>
+
+      <button type="submit">Enviar respuestas</button>
+    </form>
+
+    <div class="thanks-message" id="thanksMessage" style="display: none;">
+      ¡Gracias por tus respuestas! 🌟
+    </div>
+  </div>
+
+  <script>
+    // Eliminar el tiempo restante guardado
+    sessionStorage.removeItem("remainingTime");
+  
+    document.getElementById("surveyForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+  
+      const data = {
+        learning: document.getElementById("learning").value,
+        gameQuality: document.getElementById("gameQuality").value,
+        comments: document.getElementById("comments").value
+      };
+  
+      // Aquí podrías enviar los datos a un backend con fetch()
+  
+      // Mostrar mensaje de agradecimiento y botón
+      document.getElementById("thanksMessage").style.display = "block";
+      document.getElementById("goToResultsBtn").style.display = "inline-block";
+    });
+  
+    // Redirige al presionar el botón
+    document.getElementById("goToResultsBtn").addEventListener("click", function() {
+      window.location.href = "resultados.html";
+    });
+  </script>
+  
+</body>
+</html>

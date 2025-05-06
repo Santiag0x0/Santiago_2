@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pregunta 6</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: radial-gradient(circle at top left, #2c3e50, #000428);
+      color: #fff;
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .timer {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      color: #00bcd4;
+    }
+
+    .question-box {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: 14px;
+      max-width: 650px;
+      margin: 0 auto;
+      box-shadow: 0 0 20px rgba(0, 188, 212, 0.3);
+    }
+
+    .question {
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .option {
+      display: block;
+      margin: 0.6rem auto;
+      padding: 0.9rem 2rem;
+      background-color: #1c2833;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .option:hover {
+      background-color: #00bcd4;
+      color: #000;
+    }
+
+    .correct {
+      background-color: #2ecc71 !important;
+    }
+
+    .incorrect {
+      background-color: #e74c3c !important;
+    }
+
+    .feedback {
+      margin-top: 1.2rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .feedback.correct {
+      color: #81c784;
+    }
+
+    .feedback.incorrect {
+      color: #ef9a9a;
+    }
+
+    .next-btn {
+      display: none;
+      margin-top: 2rem;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      background-color: #00bcd4;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .next-btn:hover {
+      background-color: #4dd0e1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="timer">Tiempo restante: <span id="countdown">05:00</span></div>
+
+  <div class="question-box" id="questionBox">
+    <div class="question">
+      Mencione dos partidos politicos de Colombia
+    </div>
+    <button class="option" onclick="checkAnswer(this, false)">Partido obrero aleman, y energia amarilla</button>
+    <button class="option" onclick="checkAnswer(this, false)">Republicano y el patriotico</button>
+    <button class="option" onclick="checkAnswer(this, true)">Conservador y liberal</button>
+    <button class="option" onclick="checkAnswer(this, false)">Verde y Petrista</button>
+  </div>
+
+  <div id="feedbackContainer"></div>
+  <button class="next-btn" onclick="nextPage()">Siguiente pregunta</button>
+
+  <script>
+    // ⏱ Iniciar o continuar temporizador compartido
+    let totalSeconds = 5 * 60;
+    const countdownElement = document.getElementById("countdown");
+
+    if (sessionStorage.getItem("remainingTime")) {
+      totalSeconds = parseInt(sessionStorage.getItem("remainingTime"));
+    }
+
+    function updateTimer() {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      countdownElement.textContent =
+        (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+      if (totalSeconds > 0) {
+        totalSeconds--;
+      } else {
+        clearInterval(timerInterval);
+        window.location.href = "explicacion.html";
+      }
+    }
+
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    setInterval(() => {
+      sessionStorage.setItem("remainingTime", totalSeconds);
+    }, 1000);
+
+    function checkAnswer(button, isCorrect) {
+      const options = document.querySelectorAll(".option");
+      options.forEach(opt => opt.disabled = true);
+
+      const feedback = document.createElement("div");
+      feedback.classList.add("feedback");
+
+      if (isCorrect) {
+        button.classList.add("correct");
+        feedback.classList.add("correct");
+        feedback.textContent = "✅ ¡Correcto! El conservador y liberal son lo que tienen mas historia en colombia.";
+      } else {
+        button.classList.add("incorrect");
+        feedback.classList.add("incorrect");
+        feedback.textContent = "❌ Incorrecto. La correcta es: C, el liberal y el conservador.";
+        options.forEach(opt => {
+          if (opt.textContent.includes("Formación continua")) {
+            opt.classList.add("correct");
+          }
+        });
+      }
+
+      document.getElementById("feedbackContainer").appendChild(feedback);
+      document.querySelector(".next-btn").style.display = "inline-block";
+    }
+
+    function nextPage() {
+      window.location.href = "pregunta7.html";
+    }
+  </script>
+</body>
+</html>

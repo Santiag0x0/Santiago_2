@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pregunta 9</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .timer {
+      font-size: 1.5rem;
+      color: #ffb74d;
+      margin-bottom: 2rem;
+    }
+
+    .question-box {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 2rem;
+      border-radius: 15px;
+      max-width: 700px;
+      margin: 0 auto;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    }
+
+    .question {
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .option {
+      display: block;
+      margin: 1rem auto;
+      padding: 0.9rem 2rem;
+      background-color: #374785;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.3s;
+      max-width: 300px;
+    }
+
+    .option:hover {
+      background-color: #f76c6c;
+      transform: scale(1.05);
+    }
+
+    .correct {
+      background-color: #2e7d32 !important;
+    }
+
+    .incorrect {
+      background-color: #c62828 !important;
+    }
+
+    .feedback {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .feedback.correct {
+      color: #81c784;
+    }
+
+    .feedback.incorrect {
+      color: #ef9a9a;
+    }
+
+    .next-button {
+      display: none;
+      margin-top: 2rem;
+      padding: 0.8rem 2rem;
+      background-color: #ffd54f;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .next-button:hover {
+      background-color: #ffca28;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="timer">Tiempo restante: <span id="countdown">05:00</span></div>
+
+  <div class="question-box" id="questionBox">
+    <div class="question">
+      ¿Que es el sufragio?
+    </div>
+    <button class="option" onclick="checkAnswer(this, false)">Acto en el que por algun motivo no se me permite participar en la vida politica de mi pais.</button>
+    <button class="option" onclick="checkAnswer(this, false)">Derecho a poder nacionalizarse</button>
+    <button class="option" onclick="checkAnswer(this, false)">Derecho a avanzar en aguas Colombianas</button>
+    <button class="option" onclick="checkAnswer(this, true)">Derecho al voto libre y secreto</button>
+  </div>
+
+  <div id="feedbackContainer"></div>
+  <button id="nextBtn" class="next-button" onclick="goToNext()">Siguiente Pregunta</button>
+
+  <script>
+    // ⏱ Temporizador
+    let totalSeconds = 5 * 60;
+    const countdownElement = document.getElementById("countdown");
+
+    function updateTimer() {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      countdownElement.textContent = 
+        (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+
+      if (totalSeconds > 0) {
+        totalSeconds--;
+      } else {
+        clearInterval(timerInterval);
+        window.location.href = "explicacion.html";
+      }
+    }
+
+    if (sessionStorage.getItem("remainingTime")) {
+      totalSeconds = parseInt(sessionStorage.getItem("remainingTime"));
+    }
+
+    setInterval(() => {
+      sessionStorage.setItem("remainingTime", totalSeconds);
+    }, 1000);
+
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    // ✅ Verificación
+    function checkAnswer(button, isCorrect) {
+      const options = document.querySelectorAll(".option");
+      options.forEach(opt => opt.disabled = true);
+      const feedback = document.createElement("div");
+      feedback.classList.add("feedback");
+
+      if (isCorrect) {
+        button.classList.add("correct");
+        feedback.classList.add("correct");
+        feedback.textContent = "✅ Correcto. Es el derecho al voto libre y secreto.";
+      } else {
+        button.classList.add("incorrect");
+        feedback.classList.add("incorrect");
+        feedback.textContent = "❌ Incorrecto. Es la D, Derecho al voto libre y secreto.";
+        options.forEach(opt => {
+          if (opt.textContent.includes("Ética profesional")) {
+            opt.classList.add("correct");
+          }
+        });
+      }
+
+      document.getElementById("feedbackContainer").appendChild(feedback);
+      document.getElementById("nextBtn").style.display = "inline-block";
+    }
+
+    function goToNext() {
+      window.location.href = "pregunta10.html";
+    }
+  </script>
+</body>
+</html>

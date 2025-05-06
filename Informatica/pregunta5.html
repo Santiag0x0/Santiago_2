@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pregunta 5</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #0f2027, #203a43);
+      color: #f0f0f0;
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .timer {
+      font-size: 1.4rem;
+      margin-bottom: 2rem;
+      color: #4fc3f7;
+    }
+
+    .question-box {
+      background: #112233;
+      padding: 2rem;
+      border-radius: 14px;
+      max-width: 700px;
+      margin: 0 auto;
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.1);
+    }
+
+    .question {
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .option {
+      display: block;
+      margin: 1rem auto;
+      padding: 0.9rem 2rem;
+      background-color: #345;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .option:hover {
+      background-color: #4fc3f7;
+      color: #000;
+    }
+
+    .correct {
+      background-color: #388e3c !important;
+      color: #fff !important;
+    }
+
+    .incorrect {
+      background-color: #d32f2f !important;
+      color: #fff !important;
+    }
+
+    .feedback {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .feedback.correct {
+      color: #81c784;
+    }
+
+    .feedback.incorrect {
+      color: #ef9a9a;
+    }
+
+    #nextBtn {
+      margin-top: 2rem;
+      display: none;
+      padding: 0.8rem 2rem;
+      background-color: #4fc3f7;
+      color: #000;
+      font-weight: bold;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #nextBtn:hover {
+      background-color: #29b6f6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="timer">Tiempo restante: <span id="countdown">05:00</span></div>
+
+  <div class="question-box" id="questionBox">
+    <div class="question">
+      ¿Que hace el congreso?
+    </div>
+    <button class="option" onclick="checkAnswer(this, true)">Representa al pueblo y crea las leyes.</button>
+    <button class="option" onclick="checkAnswer(this, false)">Se encarga de atrapar a los delincuentes.</button>
+    <button class="option" onclick="checkAnswer(this, false)">Se encarga de la economia nacional.</button>
+    <button class="option" onclick="checkAnswer(this, false)">Esta hecho para vigilar a los criminales.</button>
+  </div>
+
+  <div id="feedbackContainer"></div>
+
+  <button id="nextBtn" onclick="goToNext()">Siguiente pregunta</button>
+
+  <script>
+    // ⏱ Temporizador global
+    let totalSeconds = 5 * 60;
+    const countdownElement = document.getElementById("countdown");
+
+    function updateTimer() {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      countdownElement.textContent =
+        (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+      if (totalSeconds > 0) {
+        totalSeconds--;
+      } else {
+        clearInterval(timerInterval);
+        window.location.href = "explicacion.html";
+      }
+    }
+
+    // Recuperar tiempo si existe
+    if (sessionStorage.getItem("remainingTime")) {
+      totalSeconds = parseInt(sessionStorage.getItem("remainingTime"));
+    }
+
+    setInterval(() => {
+      sessionStorage.setItem("remainingTime", totalSeconds);
+    }, 1000);
+
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    function checkAnswer(button, isCorrect) {
+      const options = document.querySelectorAll(".option");
+      options.forEach(opt => opt.disabled = true);
+      const feedback = document.createElement("div");
+      feedback.classList.add("feedback");
+
+      if (isCorrect) {
+        button.classList.add("correct");
+        feedback.classList.add("correct");
+        feedback.textContent = "✅ Correcto. Es para representar al pueblo y crear las leyes.";
+      } else {
+        button.classList.add("incorrect");
+        feedback.classList.add("incorrect");
+        feedback.textContent = "❌ Incorrecto. Es la A, ya que el congreso representa y crea leyes.";
+        options.forEach(opt => {
+          if (opt.textContent.includes("derechos humanos")) {
+            opt.classList.add("correct");
+          }
+        });
+      }
+
+      document.getElementById("feedbackContainer").appendChild(feedback);
+      document.getElementById("nextBtn").style.display = "inline-block";
+    }
+
+    function goToNext() {
+      window.location.href = "pregunta6.html";
+    }
+  </script>
+</body>
+</html>

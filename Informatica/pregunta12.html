@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pregunta 12</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle, #1f1c2c, #928dab);
+      color: #fff;
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .timer {
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      color: #ffcc00;
+    }
+
+    .question-box {
+      background: #2c2c54;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 650px;
+      margin: 0 auto;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .question {
+      font-size: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .option {
+      display: block;
+      margin: 0.6rem auto;
+      padding: 0.8rem 1.5rem;
+      background-color: #3c40c6;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      max-width: 350px;
+    }
+
+    .option:hover {
+      background-color: #7d5fff;
+    }
+
+    .correct {
+      background-color: #2ecc71 !important;
+    }
+
+    .incorrect {
+      background-color: #e74c3c !important;
+    }
+
+    .feedback {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .feedback.correct {
+      color: #2ecc71;
+    }
+
+    .feedback.incorrect {
+      color: #e74c3c;
+    }
+
+    #nextBtn {
+      margin-top: 2rem;
+      display: none;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      background-color: #ffcc00;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="timer">Tiempo restante: <span id="countdown">05:00</span></div>
+
+  <div class="question-box" id="questionBox">
+    <div class="question">
+      ¿Qué son las politicas publicas?
+    </div>
+    <button class="option" onclick="checkAnswer(this, false)">Acciones decretadas por la Interpol</button>
+    <button class="option" onclick="checkAnswer(this, false)">Acciones decretadas por la Europol</button>
+    <button class="option" onclick="checkAnswer(this, true)">Programas del Estado para resolver problemas y fomentar desarrollo.</button>
+    <button class="option" onclick="checkAnswer(this, false)">Acciones decretadas por la ONU</button>
+  </div>
+
+  <div id="feedbackContainer"></div>
+  <button id="nextBtn" onclick="nextPage()">Siguiente Pregunta</button>
+
+  <script>
+    let totalSeconds = sessionStorage.getItem("remainingTime") ? parseInt(sessionStorage.getItem("remainingTime")) : 300;
+    const countdownElement = document.getElementById("countdown");
+
+    function updateTimer() {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      countdownElement.textContent = 
+        (minutes < 10 ? "0" : "") + minutes + ":" + 
+        (seconds < 10 ? "0" : "") + seconds;
+
+      if (totalSeconds > 0) {
+        totalSeconds--;
+      } else {
+        clearInterval(timerInterval);
+        window.location.href = "explicacion.html";
+      }
+    }
+
+    const timerInterval = setInterval(updateTimer, 1000);
+    setInterval(() => {
+      sessionStorage.setItem("remainingTime", totalSeconds);
+    }, 1000);
+
+    function checkAnswer(button, isCorrect) {
+      const options = document.querySelectorAll(".option");
+      options.forEach(opt => opt.disabled = true);
+
+      const feedback = document.createElement("div");
+      feedback.classList.add("feedback");
+
+      if (isCorrect) {
+        button.classList.add("correct");
+        feedback.classList.add("correct");
+        feedback.textContent = "✅ ¡Correcto! Programas del Estado para resolver problemas y fomentar desarrollo.";
+      } else {
+        button.classList.add("incorrect");
+        feedback.classList.add("incorrect");
+        feedback.textContent = "❌ Incorrecto. La respuesta correcta es: Programas del Estado para resolver problemas y fomentar desarrollo..";
+        options.forEach(opt => {
+          if (opt.textContent.includes("Agencias de aplicación")) {
+            opt.classList.add("correct");
+          }
+        });
+      }
+
+      document.getElementById("feedbackContainer").appendChild(feedback);
+      document.getElementById("nextBtn").style.display = "inline-block";
+    }
+
+    function nextPage() {
+      window.location.href = "pregunta13.html";
+    }
+  </script>
+</body>
+</html>
